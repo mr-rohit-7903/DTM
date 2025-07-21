@@ -1,0 +1,236 @@
+.design-of-week {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.design-of-week::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 30%, rgba(254, 202, 87, 0.1) 0%, transparent 50%);
+}
+
+.featured-design {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.design-image-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.design-image-wrapper {
+  position: relative;
+  transform: perspective(1000px) rotateY(-10deg);
+  transition: transform 0.3s ease;
+}
+
+.design-image-wrapper:hover {
+  transform: perspective(1000px) rotateY(0deg) scale(1.05);
+}
+
+.featured-image {
+  width: 400px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 25px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  border: 3px solid #333;
+}
+
+.image-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.glow-ring {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  border: 2px solid transparent;
+  border-radius: 35px;
+  background: linear-gradient(135deg, #ff6b6b, #feca57) border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0.6;
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.floating-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  animation: float-particle 3s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  top: 60%;
+  right: 15%;
+  animation-delay: 1s;
+  background: #feca57;
+}
+
+.particle:nth-child(3) {
+  bottom: 30%;
+  left: 20%;
+  animation-delay: 2s;
+}
+
+.particle:nth-child(4) {
+  top: 40%;
+  right: 30%;
+  animation-delay: 1.5s;
+  background: #feca57;
+}
+
+@keyframes float-particle {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+.week-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.design-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.design-story {
+  margin-bottom: 30px;
+}
+
+.design-story p {
+  color: #cccccc;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.design-stats {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+  padding: 20px 0;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.design-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.design-actions .btn {
+  flex: 1;
+  min-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .featured-design {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .featured-image {
+    width: 300px;
+    height: 380px;
+  }
+
+  .design-title {
+    font-size: 2rem;
+  }
+
+  .design-stats {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .design-actions {
+    justify-content: center;
+  }
+
+  .design-actions .btn {
+    min-width: 150px;
+  }
+}

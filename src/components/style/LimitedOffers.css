@@ -1,0 +1,215 @@
+.limited-offers {
+  background: radial-gradient(circle at center, #1a0a0a, #0a0a0a);
+  position: relative;
+  overflow: hidden;
+}
+
+.limited-offers::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ff6b6b" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.countdown-timer {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 2;
+}
+
+.countdown-timer h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #ff6b6b;
+}
+
+.timer-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.time-unit {
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  border-radius: 15px;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+  box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2);
+}
+
+.time-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  line-height: 1;
+}
+
+.time-label {
+  font-size: 0.8rem;
+  color: white;
+  opacity: 0.9;
+  margin-top: 5px;
+}
+
+.time-separator {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff6b6b;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.offer-card {
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  border-radius: 25px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 2px solid #333;
+}
+
+.offer-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(255, 107, 107, 0.2);
+  border-color: #ff6b6b;
+}
+
+.offer-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 3;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.offer-image-wrapper {
+  padding: 30px;
+  text-align: center;
+}
+
+.offer-image {
+  width: 200px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+}
+
+.offer-card:hover .offer-image {
+  transform: scale(1.1) rotate(-2deg);
+}
+
+.offer-content {
+  padding: 0 30px 30px;
+  text-align: center;
+}
+
+.offer-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.offer-description {
+  color: #cccccc;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.price-section {
+  margin-bottom: 25px;
+}
+
+.original-price {
+  color: #888;
+  text-decoration: line-through;
+  font-size: 1.1rem;
+  margin-right: 15px;
+}
+
+.offer-price {
+  color: #ff6b6b;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.offer-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .offers-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .timer-display {
+    gap: 5px;
+  }
+
+  .time-unit {
+    min-width: 60px;
+    padding: 10px 15px;
+  }
+
+  .time-number {
+    font-size: 1.5rem;
+  }
+}
