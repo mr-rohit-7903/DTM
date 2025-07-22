@@ -3,20 +3,20 @@ import "./style/About.css"
 const About = () => {
   const founders = [
     {
-      name: "Rohit Bej",
-      role: "Founder & Creative Head",
-      quote: "Turning memes into moods. Designing your everyday vibe.",
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    {
       name: "Chirag Janbandhu",
-      role: "Co-founder & Marketing Lead",
+      role: "Co-founder",
       quote: "The world will know us—one tee at a time.",
       image: "/placeholder.svg?height=200&width=200",
     },
     {
+      name: "Rohit Bej",
+      role: "Founder",
+      quote: "Turning memes into moods. Designing your everyday vibe.",
+      image: "/images/Rohit.jpg?height=200&width=200",
+    },
+    {
       name: "Sambit Barik",
-      role: "Co-founder & Operations Head",
+      role: "Co-founder",
       quote: "From clicks to cloth—we keep it running.",
       image: "/placeholder.svg?height=200&width=200",
     },

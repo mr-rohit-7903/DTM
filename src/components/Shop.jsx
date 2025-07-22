@@ -13,7 +13,7 @@ const Shop = ({ addToCart }) => {
       name: "Debugging Life Tee",
       price: "₹599",
       originalPrice: "₹799",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "Perfect for those late-night coding sessions. Soft cotton blend with a witty debugging print.",
       category: "T-Shirts",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -25,7 +25,7 @@ const Shop = ({ addToCart }) => {
       name: "404 Not Found Hoodie",
       price: "₹899",
       originalPrice: "₹1199",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "Stay warm while staying geeky. Premium hoodie with kangaroo pocket and adjustable hood.",
       category: "Hoodies",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -37,7 +37,7 @@ const Shop = ({ addToCart }) => {
       name: "Ctrl+Alt+Delete Tee",
       price: "₹549",
       originalPrice: "₹699",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "When life gets complicated, just restart. Comfortable fit with vintage-style print.",
       category: "T-Shirts",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -49,7 +49,7 @@ const Shop = ({ addToCart }) => {
       name: "Infinite Loop Sweatshirt",
       price: "₹799",
       originalPrice: "₹999",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "Cozy sweatshirt for endless coding marathons. Fleece-lined interior for maximum comfort.",
       category: "Sweatshirts",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -61,7 +61,7 @@ const Shop = ({ addToCart }) => {
       name: "Binary Dreams Tee",
       price: "₹599",
       originalPrice: "₹749",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "Dream in binary, wake up in code. Soft fabric with glow-in-the-dark binary pattern.",
       category: "T-Shirts",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -73,7 +73,7 @@ const Shop = ({ addToCart }) => {
       name: "Code & Coffee Hoodie",
       price: "₹849",
       originalPrice: "₹1099",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "The perfect combination for productivity. Premium hoodie with coffee-themed coding humor.",
       category: "Hoodies",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -85,7 +85,7 @@ const Shop = ({ addToCart }) => {
       name: "Git Commit Tee",
       price: "₹579",
       originalPrice: "₹729",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "Commit to style with this Git-themed tee. Perfect for version control enthusiasts.",
       category: "T-Shirts",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -97,7 +97,7 @@ const Shop = ({ addToCart }) => {
       name: "Stack Overflow Savior",
       price: "₹629",
       originalPrice: "₹799",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "For those who live by Stack Overflow. Tribute tee to every developer's best friend.",
       category: "T-Shirts",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -109,7 +109,7 @@ const Shop = ({ addToCart }) => {
       name: "Async/Await Hoodie",
       price: "₹899",
       originalPrice: "₹1149",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/images/hero.png?height=400&width=300",
       description: "Wait for it... Premium hoodie celebrating modern JavaScript. Soft and stylish.",
       category: "Hoodies",
       sizes: ["S", "M", "L", "XL", "XXL"],
@@ -174,7 +174,7 @@ const Shop = ({ addToCart }) => {
           {products.map((product) => (
             <div key={product.id} className="shop-product-card" data-product-id={product.id}>
               <div className="product-image-container">
-                <img src={product.image || "/placeholder.svg"} alt={product.name} className="shop-product-image" />
+                <img src={product.image || "/images/hero.png"} alt={product.name} className="shop-product-image" />
                 {product.badge && <div className="product-badge">{product.badge}</div>}
 
                 <div className="product-overlay">
@@ -233,7 +233,6 @@ const Shop = ({ addToCart }) => {
                   <button className="btn btn-primary add-to-cart" onClick={() => handleAddToCart(product)}>
                     Add to Cart
                   </button>
-                  <button className="btn btn-secondary wishlist">♡</button>
                 </div>
               </div>
             </div>

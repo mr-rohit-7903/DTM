@@ -18,7 +18,7 @@ const Navbar = ({ cartItems, totalItems, totalPrice, removeFromCart, updateQuant
   }
 
   const handleCheckout = () => {
-    alert(`Proceeding to checkout with ${totalItems} items worth ₹${totalPrice.toLocaleString()}`)
+    // alert(`Proceeding to checkout with ${totalItems} items worth ₹${totalPrice.toLocaleString()}`)
     setIsCartOpen(false)
   }
 
@@ -30,7 +30,7 @@ const Navbar = ({ cartItems, totalItems, totalPrice, removeFromCart, updateQuant
         <div className="nav-content">
           <div className="logo">
             <Link to="/">
-              <img src="/placeholder.svg?height=52&width=178" alt="Darkmode Threads" className="logo-img" />
+              <img src="/images/DARKMODE.png?height=52&width=178" alt="Darkmode Threads" className="logo-img" />
             </Link>
           </div>
 
@@ -124,9 +124,11 @@ const Navbar = ({ cartItems, totalItems, totalPrice, removeFromCart, updateQuant
                         <div className="total-items">Total Items: {totalItems}</div>
                         <div className="total-price">Total: ₹{totalPrice.toLocaleString()}</div>
                       </div>
-                      <button className="checkout-btn" onClick={handleCheckout}>
-                        Proceed to Checkout
-                      </button>
+                      <Link to="/checkout">
+                        <button className="checkout-btn" onClick={handleCheckout}>
+                          Proceed to Checkout
+                        </button>
+                      </Link>
                     </div>
                   )}
                 </div>

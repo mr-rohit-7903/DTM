@@ -19,6 +19,7 @@
   width: 11.125rem;
   height: 3.25rem;
   object-fit: contain;
+  filter: invert(100%);
 }
 
 .nav-links {

@@ -27,7 +27,7 @@ const Hero = () => {
 
           <div className="hero-visual">
             <div className="tshirt-showcase">
-              <img src="/placeholder.svg?height=400&width=300" alt="Featured T-shirt" className="hero-tshirt" />
+              <img src="/images/hero.png?height=400&width=300" alt="Featured T-shirt" className="hero-tshirt" />
               <div className="glow-effect"></div>
             </div>
           </div>

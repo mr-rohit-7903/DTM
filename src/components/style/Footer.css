@@ -16,7 +16,7 @@
   opacity: 0.5;
 }
 
-.footer-content {
+.footer-content { 
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 60px;
@@ -34,6 +34,7 @@
   height: 3.25rem;
   object-fit: contain;
   margin-bottom: 20px;
+  filter: invert(100%);
 }
 
 .footer-tagline {
@@ -45,6 +46,7 @@
 
 .social-links {
   display: flex;
+  justify-content: flex-start;
   gap: 20px;
 }
 
@@ -81,7 +83,6 @@
 }
 
 .social-link:hover {
-  border-color: var(--social-color);
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
@@ -246,7 +247,7 @@
   }
 
   .social-links {
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 

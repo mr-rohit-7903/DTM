@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import About from "./pages/About"
 import Shop from "./pages/Shop"
 import Contact from "./pages/Contact"
+import Checkout from "./pages/Checkout"
 
 function App() {
   const [cartItems, setCartItems] = useState([])
@@ -79,6 +80,10 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/shop" element={<Shop addToCart={addToCart} />} />
         <Route path="/contact" element={<Contact />} />
+        <Route
+          path="/checkout"
+          element={<Checkout cartItems={cartItems} getTotalPrice={getTotalPrice} getTotalItems={getTotalItems} />}
+        />
       </Routes>
 
       <Footer />

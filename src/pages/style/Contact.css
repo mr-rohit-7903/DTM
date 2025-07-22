@@ -64,6 +64,13 @@
   display: block;
 }
 
+
+.contact-icon img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: -20px;
+}
+
 .contact-card h3 {
   font-size: 1.3rem;
   margin-bottom: 15px;

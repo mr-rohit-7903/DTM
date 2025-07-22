@@ -4,26 +4,26 @@ const Footer = () => {
   const socialLinks = [
     {
       name: "Instagram",
-      icon: "📷",
-      url: "#",
+      icon: "/icons/instagram.svg",
+      url: "https://www.instagram.com/darkmodethreads/",
       color: "#E4405F",
     },
     {
       name: "LinkedIn",
-      icon: "💼",
-      url: "#",
+      icon: "/icons/linkedin.svg",
+      url: "https://www.linkedin.com/company/darkmodethreads/",
       color: "#0077B5",
     },
     {
       name: "WhatsApp",
-      icon: "💬",
+      icon: "/icons/whatsapp.svg",
       url: "#",
       color: "#25D366",
     },
     {
       name: "Email",
-      icon: "📧",
-      url: "mailto:hello@darkmodethreads.com",
+      icon: "/icons/email.svg",
+      url: "mailto:darkmodethreads@gmail.com",
       color: "#ff6b6b",
     },
   ]
@@ -53,7 +53,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-brand">
             <div className="footer-logo">
-              <img src="/placeholder.svg?height=52&width=178" alt="Darkmode Threads" className="footer-logo-img" />
+              <img src="/images/DARKMODE.png?height=52&width=178" alt="Darkmode Threads" className="footer-logo-img" />
             </div>
             <p className="footer-tagline">Where memes meet fashion. Designed for the digital generation.</p>
             <div className="social-links">
@@ -64,9 +64,18 @@ const Footer = () => {
                   className="social-link"
                   style={{ "--social-color": social.color }}
                   aria-label={social.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <span className="social-icon">{social.icon}</span>
+                  <img
+                    src={social.icon}
+                    alt={social.name}
+                    className="social-icon-img"
+                    width="32"
+                    height="32"
+                  />
                 </a>
+
               ))}
             </div>
           </div>

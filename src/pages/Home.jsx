@@ -11,7 +11,7 @@ const Home = ({ addToCart }) => {
       <Hero />
       <NewArrivals addToCart={addToCart} />
       <BestSellers addToCart={addToCart} />
-      <LimitedOffers />
+      {/* <LimitedOffers /> */}
       <DesignOfTheWeek />
       <ExclusivelyKGP addToCart={addToCart} />
     </div>

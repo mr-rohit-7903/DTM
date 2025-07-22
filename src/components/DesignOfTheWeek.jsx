@@ -9,7 +9,7 @@ const DesignOfTheWeek = () => {
         <div className="featured-design">
           <div className="design-image-section">
             <div className="design-image-wrapper">
-              <img src="/placeholder.svg?height=500&width=400" alt="Featured Design" className="featured-image" />
+              <img src="/images/hero.png?height=500&width=400" alt="Featured Design" className="featured-image" />
               <div className="image-effects">
                 <div className="glow-ring"></div>
                 <div className="floating-particles">
