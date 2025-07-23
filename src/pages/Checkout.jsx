@@ -4,8 +4,6 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./style/Checkout.css"
 
-
-
 const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
@@ -21,13 +19,6 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
     state: "",
     zipCode: "",
     country: "India",
-
-    // Payment Information
-    paymentMethod: "card",
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardName: "",
   })
 
   const [errors, setErrors] = useState({})
@@ -51,161 +42,257 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
 
   const validateForm = () => {
     const newErrors = {}
+    const missingFields = []
 
     // Personal Information
-    if (!formData.firstName.trim()) newErrors.firstName = "First name is required"
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required"
-    if (!formData.email.trim()) newErrors.email = "Email is required"
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid"
-    if (!formData.phone.trim()) newErrors.phone = "Phone number is required"
-    else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ""))) newErrors.phone = "Phone number must be 10 digits"
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required"
+      missingFields.push("First Name")
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required"
+      missingFields.push("Last Name")
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required"
+      missingFields.push("Email")
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid"
+      missingFields.push("Valid Email")
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required"
+      missingFields.push("Phone Number")
+    } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ""))) {
+      newErrors.phone = "Phone number must be 10 digits"
+      missingFields.push("Valid Phone Number (10 digits)")
+    }
 
     // Shipping Address
-    if (!formData.address.trim()) newErrors.address = "Address is required"
-    if (!formData.city.trim()) newErrors.city = "City is required"
-    if (!formData.state.trim()) newErrors.state = "State is required"
-    if (!formData.zipCode.trim()) newErrors.zipCode = "ZIP code is required"
-
-    // Payment Information
-    if (formData.paymentMethod === "card") {
-      if (!formData.cardNumber.trim()) newErrors.cardNumber = "Card number is required"
-      else if (!/^\d{16}$/.test(formData.cardNumber.replace(/\s/g, "")))
-        newErrors.cardNumber = "Card number must be 16 digits"
-
-      if (!formData.expiryDate.trim()) newErrors.expiryDate = "Expiry date is required"
-      else if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.expiryDate)) newErrors.expiryDate = "Format: MM/YY"
-
-      if (!formData.cvv.trim()) newErrors.cvv = "CVV is required"
-      else if (!/^\d{3,4}$/.test(formData.cvv)) newErrors.cvv = "CVV must be 3-4 digits"
-
-      if (!formData.cardName.trim()) newErrors.cardName = "Cardholder name is required"
+    if (!formData.address.trim()) {
+      newErrors.address = "Address is required"
+      missingFields.push("Address")
+    }
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required"
+      missingFields.push("City")
+    }
+    if (!formData.state.trim()) {
+      newErrors.state = "State is required"
+      missingFields.push("State")
+    }
+    if (!formData.zipCode.trim()) {
+      newErrors.zipCode = "ZIP code is required"
+      missingFields.push("ZIP Code")
     }
 
     setErrors(newErrors)
+
+    // Show single alert for all missing fields
+    if (missingFields.length > 0) {
+      if (missingFields.length === 1) {
+        alert(`Please fill in the ${missingFields[0]} field.`)
+      } else if (missingFields.length === 2) {
+        alert(`Please fill in the ${missingFields[0]} and ${missingFields[1]} fields.`)
+      } else {
+        const lastField = missingFields.pop()
+        alert(`Please fill in the following fields: ${missingFields.join(", ")}, and ${lastField}.`)
+      }
+    }
+
     return Object.keys(newErrors).length === 0
   }
 
   const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
-    const script = document.createElement("script")
-    script.src = "https://checkout.razorpay.com/v1/checkout.js"
-    script.onload = () => resolve(true)
-    script.onerror = () => resolve(false)
-    document.body.appendChild(script)
-  })
-}
+    return new Promise((resolve) => {
+      // Check if Razorpay is already loaded
+      if (window.Razorpay) {
+        resolve(true)
+        return
+      }
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  if (!validateForm()) return;
-
-  setIsProcessing(true);
-
-  const scriptLoaded = await loadRazorpayScript();
-  if (!scriptLoaded) {
-    alert("Failed to load Razorpay SDK. Please check your internet connection.");
-    setIsProcessing(false);
-    return;
+      const script = document.createElement("script")
+      script.src = "https://checkout.razorpay.com/v1/checkout.js"
+      script.onload = () => {
+        console.log("Razorpay script loaded successfully")
+        resolve(true)
+      }
+      script.onerror = () => {
+        console.error("Failed to load Razorpay script")
+        resolve(false)
+      }
+      document.body.appendChild(script)
+    })
   }
 
-  try {
-    const response = await fetch("http://localhost:5000/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ totalAmount: getTotalPrice() }), 
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-    const data = await response.json();
-    const order = data.order;
+    console.log("Form submitted")
 
-    if (!order || !order.id) {
-      alert("Failed to create order. Try again.");
-      setIsProcessing(false);
-      return;
+    if (!validateForm()) {
+      console.log("Form validation failed")
+      return
     }
 
-    if (!window.Razorpay) {
-      alert("Razorpay SDK not available. Try again.");
-      setIsProcessing(false);
-      return;
-    }
+    setIsProcessing(true)
 
-    const options = {
-      key: "rzp_test_kKhkXD2e6LLagV",
-      amount: order.amount,
-      currency: "INR",
-      name: "Darkmode Threads",
-      description: "T-shirt Order Payment",
-      order_id: order.id,
-      handler: async function (response) {
-        await fetch("http://localhost:5000/payment-success", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+    try {
+      // Load Razorpay script
+      console.log("Loading Razorpay script...")
+      const scriptLoaded = await loadRazorpayScript()
+      if (!scriptLoaded) {
+        alert("Failed to load Razorpay SDK. Please check your internet connection.")
+        setIsProcessing(false)
+        return
+      }
+
+      console.log("Creating order...")
+
+      // Calculate total with tax
+      const subtotal = getTotalPrice()
+      const total = subtotal
+
+      // Create order on backend
+      const response = await fetch("http://localhost:5000/api/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: total, // Total amount including tax
+          currency: "INR",
+          customerInfo: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            email: formData.email,
+            phone: formData.phone,
           },
-          body: JSON.stringify({
-            paymentId: response.razorpay_payment_id, // <-- changed key
-            orderId: response.razorpay_order_id,     // <-- changed key
-            signature: response.razorpay_signature,  // <-- changed key
-            formData,                               // <-- changed key
-            cartItems,                              // <-- changed key
-            totalPrice: getTotalPrice(),            // <-- added totalPrice
-          }),
-        });
+          shippingAddress: {
+            address: formData.address,
+            city: formData.city,
+            state: formData.state,
+            zipCode: formData.zipCode,
+            country: formData.country,
+          },
+          cartItems: cartItems,
+        }),
+      })
 
-        alert("Payment successful! Order confirmed.");
-        navigate("/");
-      },
-      prefill: {
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        contact: formData.phone,
-      },
-      theme: {
-        color: "#000000",
-      },
-    };
+      console.log("Response status:", response.status)
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  } catch (err) {
-    console.error("Payment initiation failed:", err);
-    alert("Something went wrong. Try again.");
-  }
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error("Server response error:", errorText)
+        throw new Error(`Server error: ${response.status}`)
+      }
 
-  setIsProcessing(false);
-};
+      const data = await response.json()
+      console.log("Order created:", data)
 
+      if (!data.success) {
+        throw new Error(data.error || "Failed to create order")
+      }
 
-  const formatCardNumber = (value) => {
-    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "")
-    const matches = v.match(/\d{4,16}/g)
-    const match = (matches && matches[0]) || ""
-    const parts = []
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4))
+      const { order } = data
+
+      // Configure Razorpay options
+      const options = {
+        key: "rzp_test_kKhkXD2e6LLagV", // Your Razorpay key ID
+        amount: order.amount,
+        currency: order.currency,
+        name: "Darkmode Threads",
+        description: "T-shirt Order Payment",
+        image: "/placeholder.svg?height=52&width=178",
+        order_id: order.id,
+        handler: async (response) => {
+          console.log("Payment successful:", response)
+          try {
+            // Verify payment on backend
+            const verifyResponse = await fetch("http://localhost:5000/api/verify-payment", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                customerInfo: {
+                  name: `${formData.firstName} ${formData.lastName}`,
+                  email: formData.email,
+                  phone: formData.phone,
+                },
+                shippingAddress: {
+                  address: formData.address,
+                  city: formData.city,
+                  state: formData.state,
+                  zipCode: formData.zipCode,
+                  country: formData.country,
+                },
+                cartItems: cartItems,
+                totalAmount: total,
+              }),
+            })
+
+            const verifyData = await verifyResponse.json()
+
+            if (verifyResponse.ok && verifyData.success) {
+              // Payment successful
+              console.log("Payment verified successfully")
+              navigate("/order-success", {
+                state: {
+                  orderId: verifyData.orderId,
+                  paymentId: response.razorpay_payment_id,
+                },
+              })
+            } else {
+              throw new Error(verifyData.error || "Payment verification failed")
+            }
+          } catch (error) {
+            console.error("Payment verification error:", error)
+            alert("Payment verification failed. Please contact support.")
+          } finally {
+            setIsProcessing(false)
+          }
+        },
+        prefill: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        notes: {
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+        },
+        theme: {
+          color: "#ff6b6b",
+        },
+        modal: {
+          ondismiss: () => {
+            console.log("Payment modal dismissed")
+            setIsProcessing(false)
+          },
+        },
+      }
+
+      console.log("Opening Razorpay checkout with options:", options)
+
+      // Open Razorpay checkout
+      const rzp = new window.Razorpay(options)
+
+      rzp.on("payment.failed", (response) => {
+        console.error("Payment failed:", response.error)
+        alert(`Payment failed: ${response.error.description}`)
+        setIsProcessing(false)
+      })
+
+      rzp.open()
+    } catch (error) {
+      console.error("Payment initiation error:", error)
+      alert(`Failed to initiate payment: ${error.message}`)
+      setIsProcessing(false)
     }
-    if (parts.length) {
-      return parts.join(" ")
-    } else {
-      return v
-    }
-  }
-
-  const handleCardNumberChange = (e) => {
-    const formatted = formatCardNumber(e.target.value)
-    setFormData((prev) => ({ ...prev, cardNumber: formatted }))
-  }
-
-  const handleExpiryChange = (e) => {
-    let value = e.target.value.replace(/\D/g, "")
-    if (value.length >= 2) {
-      value = value.substring(0, 2) + "/" + value.substring(2, 4)
-    }
-    setFormData((prev) => ({ ...prev, expiryDate: value }))
   }
 
   if (cartItems.length === 0) {
@@ -246,7 +333,7 @@ const handleSubmit = async (e) => {
         </div>
 
         <div className="checkout-content">
-          <form className="checkout-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="checkout-form" onSubmit={handleSubmit}>
             {/* Personal Information */}
             <div className="form-section">
               <h2 className="section-title">Personal Information</h2>
@@ -364,137 +451,16 @@ const handleSubmit = async (e) => {
               </div>
             </div>
 
-            {/* Payment Information */}
-            {/* <div className="form-section">
-              <h2 className="section-title">Payment Information</h2>
-              <div className="payment-methods">
-                <label className="payment-method">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="card"
-                    checked={formData.paymentMethod === "card"}
-                    onChange={handleChange}
-                  />
-                  <span className="payment-method-label">
-                    <span className="payment-icon">💳</span>
-                    Credit/Debit Card
-                  </span>
-                </label>
-                <label className="payment-method">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="upi"
-                    checked={formData.paymentMethod === "upi"}
-                    onChange={handleChange}
-                  />
-                  <span className="payment-method-label">
-                    <span className="payment-icon">📱</span>
-                    UPI
-                  </span>
-                </label>
-                <label className="payment-method">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="cod"
-                    checked={formData.paymentMethod === "cod"}
-                    onChange={handleChange}
-                  />
-                  <span className="payment-method-label">
-                    <span className="payment-icon">💰</span>
-                    Cash on Delivery
-                  </span>
-                </label>
-              </div>
-
-              {formData.paymentMethod === "card" && (
-                <div className="card-details">
-                  <div className="form-group">
-                    <label htmlFor="cardNumber">Card Number *</label>
-                    <input
-                      type="text"
-                      id="cardNumber"
-                      name="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleCardNumberChange}
-                      placeholder="1234 5678 9012 3456"
-                      maxLength="19"
-                      className={errors.cardNumber ? "error" : ""}
-                    />
-                    {errors.cardNumber && <span className="error-message">{errors.cardNumber}</span>}
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label htmlFor="expiryDate">Expiry Date *</label>
-                      <input
-                        type="text"
-                        id="expiryDate"
-                        name="expiryDate"
-                        value={formData.expiryDate}
-                        onChange={handleExpiryChange}
-                        placeholder="MM/YY"
-                        maxLength="5"
-                        className={errors.expiryDate ? "error" : ""}
-                      />
-                      {errors.expiryDate && <span className="error-message">{errors.expiryDate}</span>}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="cvv">CVV *</label>
-                      <input
-                        type="text"
-                        id="cvv"
-                        name="cvv"
-                        value={formData.cvv}
-                        onChange={handleChange}
-                        placeholder="123"
-                        maxLength="4"
-                        className={errors.cvv ? "error" : ""}
-                      />
-                      {errors.cvv && <span className="error-message">{errors.cvv}</span>}
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="cardName">Cardholder Name *</label>
-                    <input
-                      type="text"
-                      id="cardName"
-                      name="cardName"
-                      value={formData.cardName}
-                      onChange={handleChange}
-                      placeholder="Name as it appears on card"
-                      className={errors.cardName ? "error" : ""}
-                    />
-                    {errors.cardName && <span className="error-message">{errors.cardName}</span>}
-                  </div>
-                </div>
+            <button type="submit" className="btn btn-primary place-order-btn" disabled={isProcessing}>
+              {isProcessing ? (
+                <>
+                  <span className="loading-spinner"></span>
+                  Processing...
+                </>
+              ) : (
+                `Pay ₹${(getTotalPrice()).toLocaleString()} - Place Order`
               )}
-
-              {formData.paymentMethod === "upi" && (
-                <div className="upi-details">
-                  <p className="payment-info">You will be redirected to your UPI app to complete the payment.</p>
-                </div>
-              )}
-
-              {formData.paymentMethod === "cod" && (
-                <div className="cod-details">
-                  <p className="payment-info">
-                    Pay with cash when your order is delivered. Additional charges may apply.
-                  </p>
-                </div>
-              )}
-            </div> */}
-
-            <button
-              type="button"
-              className="btn btn-primary place-order-btn"
-              onClick={handleSubmit}
-              disabled={isProcessing}
-            >
-              {isProcessing ? "Processing..." : `Place Order - ₹${getTotalPrice().toLocaleString()}`}
             </button>
-
           </form>
 
           {/* Order Summary */}
@@ -529,13 +495,9 @@ const handleSubmit = async (e) => {
                 <span>Shipping</span>
                 <span>Free</span>
               </div>
-              {/* <div className="total-row">
-                <span>Tax</span>
-                <span>₹{Math.round(getTotalPrice() * 0.18).toLocaleString()}</span>
-              </div> */}
               <div className="total-row final-total">
                 <span>Total</span>
-                <span>₹{(getTotalPrice()).toLocaleString()}</span>
+                <span>₹{getTotalPrice().toLocaleString()}</span>
               </div>
             </div>
 
@@ -548,10 +510,10 @@ const handleSubmit = async (e) => {
                 <span className="badge-icon">🚚</span>
                 <span>Free Shipping</span>
               </div>
-              {/* <div className="security-badge">
+              <div className="security-badge">
                 <span className="badge-icon">↩️</span>
                 <span>Easy Returns</span>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

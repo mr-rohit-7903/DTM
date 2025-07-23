@@ -87,7 +87,6 @@
   border-radius: 20px;
   padding: 40px;
   border: 1px solid #333;
-  margin-bottom: 30px;
 }
 
 .form-section {
@@ -161,60 +160,77 @@
   display: block;
 }
 
-.payment-methods {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+/* Payment Section Styles */
+.payment-info {
+  background: rgba(255, 107, 107, 0.05);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: 15px;
+  padding: 25px;
   margin-bottom: 25px;
 }
 
-.payment-method {
+.payment-method-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.razorpay-info {
   display: flex;
   align-items: center;
-  padding: 15px;
-  border: 2px solid #333;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  gap: 15px;
 }
 
-.payment-method:hover {
-  border-color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.05);
+.payment-logo {
+  width: 120px;
+  height: 40px;
+  object-fit: contain;
+  background: white;
+  border-radius: 8px;
+  padding: 5px;
 }
 
-.payment-method input[type="radio"] {
-  margin-right: 15px;
-  width: auto;
+.payment-details h3 {
+  color: #ff6b6b;
+  margin-bottom: 5px;
+  font-size: 1.1rem;
 }
 
-.payment-method-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
+.payment-details p {
   color: #cccccc;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.payment-methods-icons {
+  display: flex;
+  gap: 10px;
 }
 
 .payment-icon {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
 }
 
-.card-details,
-.upi-details,
-.cod-details {
-  margin-top: 20px;
-  padding: 20px;
-  background: rgba(255, 107, 107, 0.05);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 107, 107, 0.2);
+.security-info {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
 }
 
-.payment-info {
-  color: #cccccc;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin: 0;
+.security-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.security-icon {
+  font-size: 1.1rem;
 }
 
 .place-order-btn {
@@ -223,11 +239,34 @@
   font-size: 1.2rem;
   font-weight: bold;
   margin-top: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .place-order-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .order-summary {
@@ -237,7 +276,6 @@
   border: 1px solid #333;
   position: sticky;
   top: 100px;
-  margin-bottom: 30px;
 }
 
 .summary-title {
@@ -351,12 +389,10 @@
   .order-summary {
     position: static;
     order: 1; /* Show first on mobile */
-    width: 100%;;
   }
 
   .checkout-form {
     order: 2; /* Show second on mobile */
-    width: 100%;
   }
 }
 
@@ -388,35 +424,18 @@
 
   .order-summary {
     padding: 25px;
-    margin-bottom: 20px; /* Add spacing between summary and form */
-    width: 100%;
-  }
-
-  /* Make order summary more compact on mobile */
-  .order-summary .summary-title {
-    font-size: 1.3rem;
     margin-bottom: 20px;
   }
 
-  .order-item {
-    padding: 12px 0;
+  .payment-method-display {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
   }
 
-  .item-image {
-    width: 50px;
-    height: 50px;
-  }
-
-  .item-name {
-    font-size: 0.9rem;
-  }
-
-  .item-options {
-    font-size: 0.75rem;
-  }
-
-  .item-price {
-    font-size: 0.9rem;
+  .security-info {
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
@@ -440,53 +459,17 @@
     font-size: 0.8rem;
   }
 
-  /* Further compact the order summary */
-  .order-summary .summary-title {
+  .payment-logo {
+    width: 100px;
+    height: 32px;
+  }
+
+  .payment-methods-icons {
+    gap: 8px;
+  }
+
+  .payment-icon {
     font-size: 1.2rem;
-    margin-bottom: 15px;
-  }
-
-  .order-item {
-    padding: 10px 0;
-    gap: 12px;
-  }
-
-  .item-image {
-    width: 45px;
-    height: 45px;
-  }
-
-  .item-details {
-    min-width: 0; /* Allow text to wrap */
-  }
-
-  .item-name {
-    font-size: 0.85rem;
-    line-height: 1.2;
-  }
-
-  .item-options {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .item-options span {
-    font-size: 0.7rem;
-  }
-
-  .total-row {
-    font-size: 0.9rem;
-  }
-
-  .total-row.final-total {
-    font-size: 1.1rem;
-  }
-
-  .security-badges {
-    gap: 8px;
-  }
-
-  .security-badge {
-    font-size: 0.8rem;
+    padding: 6px;
   }
 }

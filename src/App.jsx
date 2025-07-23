@@ -9,6 +9,7 @@ import About from "./pages/About"
 import Shop from "./pages/Shop"
 import Contact from "./pages/Contact"
 import Checkout from "./pages/Checkout"
+import OrderSuccess from "./pages/OrderSuccess"
 import SizeGuide from "./pages/SizeGuide"
 import ShippingInfo from "./pages/ShippingInfo"
 import Returns from "./pages/Returns"
@@ -75,7 +76,7 @@ function App() {
 
   return (
     <div className="App">
-      <ScrollToTop/>
+      <ScrollToTop />
       <Navbar
         cartItems={cartItems}
         totalItems={getTotalItems()}
@@ -93,6 +94,7 @@ function App() {
           path="/checkout"
           element={<Checkout cartItems={cartItems} getTotalPrice={getTotalPrice} getTotalItems={getTotalItems} />}
         />
+        <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/size-guide" element={<SizeGuide />} />
         <Route path="/shipping-info" element={<ShippingInfo />} />
         <Route path="/returns" element={<Returns />} />
