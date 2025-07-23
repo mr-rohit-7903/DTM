@@ -87,6 +87,7 @@
   border-radius: 20px;
   padding: 40px;
   border: 1px solid #333;
+  margin-bottom: 2rem;
 }
 
 .form-section {
@@ -276,6 +277,7 @@
   border: 1px solid #333;
   position: sticky;
   top: 100px;
+  margin-bottom: 2rem;
 }
 
 .summary-title {

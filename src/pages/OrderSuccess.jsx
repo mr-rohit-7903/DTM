@@ -87,9 +87,9 @@ const OrderSuccess = () => {
             <button className="btn btn-primary" onClick={handleContinueShopping}>
               Continue Shopping
             </button>
-            <button className="btn btn-secondary" onClick={handleViewOrders}>
+            {/* <button className="btn btn-secondary" onClick={handleViewOrders}>
               View Orders
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ const About = () => {
       name: "Chirag Janbandhu",
       role: "Co-founder",
       quote: "The world will know us—one tee at a time.",
-      image: "/placeholder.svg?height=200&width=200",
+      image: "/images/chirag.webp?height=200&width=200",
     },
     {
       name: "Rohit Bej",
@@ -18,7 +18,7 @@ const About = () => {
       name: "Sambit Barik",
       role: "Co-founder",
       quote: "From clicks to cloth—we keep it running.",
-      image: "/placeholder.svg?height=200&width=200",
+      image: "/images/sambit.webp?height=200&width=200",
     },
   ]
 

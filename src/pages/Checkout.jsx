@@ -346,7 +346,7 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="Steve"
+                    placeholder="Steve (name on t-shirt for KGP Exclusive)"
                     className={errors.firstName ? "error" : ""}
                   />
                   {errors.firstName && <span className="error-message">{errors.firstName}</span>}

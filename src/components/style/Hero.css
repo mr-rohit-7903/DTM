@@ -138,6 +138,7 @@
 
 @media (max-width: 768px) {
   .hero-content {
+    margin-top: 6rem;
     grid-template-columns: 1fr;
     text-align: center;
     gap: 30px;

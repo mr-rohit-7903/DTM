@@ -69,6 +69,7 @@ const ExclusivelyKGP = ({ addToCart }) => {
           <div className="kgp-badge"><span>EXCLUSIVELY FOR KGPians</span></div>
           <h2 className="section-title kgp-title">For the Campus Legends</h2>
           <p className="kgp-description">Crafted for the legends of IIT KGP — wear your pride.</p>
+          <p className="kgp-description">All the T-shirts labeled as "KGP Exclusive" has IIT Kharagpur written in the back and have custom name</p>
         </div>
 
         <div className="kgp-products-grid">

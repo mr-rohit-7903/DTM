@@ -1,6 +1,27 @@
 import "./style/DesignOfTheWeek.css"
 
 const DesignOfTheWeek = () => {
+
+  // const handleAddToCart = (product) => {
+  //   const selectedSize = selectedSizes[product.id] || "M";
+  //   const selectedColor = selectedColors[product.id] || product.colors[0];
+
+  //   addToCart(product, selectedSize, selectedColor);
+
+  //   const button = document.querySelector(
+  //     `[data-product-id="${product.id}"] .add-to-cart`
+  //   );
+  //   if (button) {
+  //     const originalText = button.textContent;
+  //     button.textContent = "Added! ✓";
+  //     button.style.background = "#28a745";
+  //     setTimeout(() => {
+  //       button.textContent = originalText;
+  //       button.style.background = "";
+  //     }, 1500);
+  //   }
+  // };
+
   return (
     <section className="design-of-week section">
       <div className="container">
@@ -24,7 +45,7 @@ const DesignOfTheWeek = () => {
 
           <div className="design-content">
             <div className="week-badge">
-              <span>Week #47</span>
+              <span>Week #1</span>
             </div>
 
             <h3 className="design-title">"Semicolon Survivor"</h3>
@@ -58,8 +79,8 @@ const DesignOfTheWeek = () => {
             </div>
 
             <div className="design-actions">
-              <button className="btn btn-primary">Get This Design - ₹649</button>
-              <button className="btn btn-secondary">View All Designs</button>
+              <button className="btn btn-primary" >Get This Design - ₹649</button>
+              <a href="/shop" className="btn btn-secondary">View All Designs</a>
             </div>
           </div>
         </div>
