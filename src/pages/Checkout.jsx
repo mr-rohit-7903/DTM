@@ -4,6 +4,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./style/Checkout.css"
 
+
+
 const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
@@ -83,26 +85,100 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script")
+    script.src = "https://checkout.razorpay.com/v1/checkout.js"
+    script.onload = () => resolve(true)
+    script.onerror = () => resolve(false)
+    document.body.appendChild(script)
+  })
+}
 
-    if (!validateForm()) return
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    setIsProcessing(true)
+  if (!validateForm()) return;
 
-    // Simulate payment processing
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+  setIsProcessing(true);
 
-      // Success - redirect to success page or show success message
-      alert(`Order placed successfully! Total: ₹${getTotalPrice().toLocaleString()}`)
-      navigate("/")
-    } catch (error) {
-      alert("Payment failed. Please try again.")
-    } finally {
-      setIsProcessing(false)
-    }
+  const scriptLoaded = await loadRazorpayScript();
+  if (!scriptLoaded) {
+    alert("Failed to load Razorpay SDK. Please check your internet connection.");
+    setIsProcessing(false);
+    return;
   }
+
+  try {
+    const response = await fetch("http://localhost:5000/create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ totalAmount: getTotalPrice() }), 
+    });
+
+    const data = await response.json();
+    const order = data.order;
+
+    if (!order || !order.id) {
+      alert("Failed to create order. Try again.");
+      setIsProcessing(false);
+      return;
+    }
+
+    if (!window.Razorpay) {
+      alert("Razorpay SDK not available. Try again.");
+      setIsProcessing(false);
+      return;
+    }
+
+    const options = {
+      key: "rzp_test_kKhkXD2e6LLagV",
+      amount: order.amount,
+      currency: "INR",
+      name: "Darkmode Threads",
+      description: "T-shirt Order Payment",
+      order_id: order.id,
+      handler: async function (response) {
+        await fetch("http://localhost:5000/payment-success", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentId: response.razorpay_payment_id, // <-- changed key
+            orderId: response.razorpay_order_id,     // <-- changed key
+            signature: response.razorpay_signature,  // <-- changed key
+            formData,                               // <-- changed key
+            cartItems,                              // <-- changed key
+            totalPrice: getTotalPrice(),            // <-- added totalPrice
+          }),
+        });
+
+        alert("Payment successful! Order confirmed.");
+        navigate("/");
+      },
+      prefill: {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        contact: formData.phone,
+      },
+      theme: {
+        color: "#000000",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    console.error("Payment initiation failed:", err);
+    alert("Something went wrong. Try again.");
+  }
+
+  setIsProcessing(false);
+};
+
 
   const formatCardNumber = (value) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "")
@@ -170,7 +246,7 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
         </div>
 
         <div className="checkout-content">
-          <form className="checkout-form" onSubmit={handleSubmit}>
+          <form className="checkout-form" onSubmit={(e) => e.preventDefault()}>
             {/* Personal Information */}
             <div className="form-section">
               <h2 className="section-title">Personal Information</h2>
@@ -410,9 +486,15 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
               )}
             </div> */}
 
-            <button type="submit" className="btn btn-primary place-order-btn" disabled={isProcessing}>
+            <button
+              type="button"
+              className="btn btn-primary place-order-btn"
+              onClick={handleSubmit}
+              disabled={isProcessing}
+            >
               {isProcessing ? "Processing..." : `Place Order - ₹${getTotalPrice().toLocaleString()}`}
             </button>
+
           </form>
 
           {/* Order Summary */}

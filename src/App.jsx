@@ -9,6 +9,14 @@ import About from "./pages/About"
 import Shop from "./pages/Shop"
 import Contact from "./pages/Contact"
 import Checkout from "./pages/Checkout"
+import SizeGuide from "./pages/SizeGuide"
+import ShippingInfo from "./pages/ShippingInfo"
+import Returns from "./pages/Returns"
+import PrivacyPolicy from "./pages/PrivacyPolicy"
+import TermsOfService from "./pages/TermsOfService"
+import CookiePolicy from "./pages/CookiePolicy"
+import RefundPolicy from "./pages/RefundPolicy"
+import ScrollToTop from "./components/ScrollToTop"
 
 function App() {
   const [cartItems, setCartItems] = useState([])
@@ -67,6 +75,7 @@ function App() {
 
   return (
     <div className="App">
+      <ScrollToTop/>
       <Navbar
         cartItems={cartItems}
         totalItems={getTotalItems()}
@@ -84,6 +93,13 @@ function App() {
           path="/checkout"
           element={<Checkout cartItems={cartItems} getTotalPrice={getTotalPrice} getTotalItems={getTotalItems} />}
         />
+        <Route path="/size-guide" element={<SizeGuide />} />
+        <Route path="/shipping-info" element={<ShippingInfo />} />
+        <Route path="/returns" element={<Returns />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
       </Routes>
 
       <Footer />

@@ -1,4 +1,5 @@
 import "./style/Footer.css"
+import { Link } from "react-router-dom"
 
 const Footer = () => {
   const socialLinks = [
@@ -31,19 +32,39 @@ const Footer = () => {
   const footerLinks = [
     {
       title: "Shop",
-      links: ["Best Sellers", "New Arrivals", "KGP Collection", "Limited Offers"],
+      links: [
+        { name: "Best Sellers", path: "/shop" },
+        { name: "New Arrivals", path: "/shop" },
+        { name: "KGP Collection", path: "/shop" },
+        { name: "Limited Offers", path: "/shop" },
+      ],
     },
     {
       title: "Company",
-      links: ["About Us", "Our Story", "Careers", "Press"],
+      links: [
+        { name: "About Us", path: "/about" },
+        { name: "Our Story", path: "/about" },
+        { name: "Careers", path: "/about" },
+        { name: "Press", path: "/about" },
+      ],
     },
     {
       title: "Support",
-      links: ["Contact Us", "Size Guide", "Shipping Info", "Returns"],
+      links: [
+        { name: "Contact Us", path: "/contact" },
+        { name: "Size Guide", path: "/size-guide" },
+        { name: "Shipping Info", path: "/shipping-info" },
+        { name: "Returns", path: "/returns" },
+      ],
     },
     {
       title: "Legal",
-      links: ["Privacy Policy", "Terms of Service", "Cookie Policy", "Refund Policy"],
+      links: [
+        { name: "Privacy Policy", path: "/privacy-policy" },
+        { name: "Terms of Service", path: "/terms-of-service" },
+        { name: "Cookie Policy", path: "/cookie-policy" },
+        { name: "Refund Policy", path: "/refund-policy" },
+      ],
     },
   ]
 
@@ -67,15 +88,8 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <img
-                    src={social.icon}
-                    alt={social.name}
-                    className="social-icon-img"
-                    width="32"
-                    height="32"
-                  />
+                  <img src={social.icon} alt={social.name} className="social-icon-img" width="32" height="32" />
                 </a>
-
               ))}
             </div>
           </div>
@@ -87,9 +101,9 @@ const Footer = () => {
                 <ul className="footer-section-links">
                   {section.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
-                      <a href="#" className="footer-link">
-                        {link}
-                      </a>
+                      <Link to={link.path} className="footer-link">
+                        {link.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -102,15 +116,9 @@ const Footer = () => {
           <div className="footer-bottom-content">
             <p className="copyright">© {new Date().getFullYear()} Darkmode Threads. All rights reserved.</p>
             <div className="footer-bottom-links">
-              <a href="#" className="footer-bottom-link">
-                Privacy
-              </a>
-              <a href="#" className="footer-bottom-link">
-                Terms
-              </a>
-              <a href="#" className="footer-bottom-link">
-                Cookies
-              </a>
+              <Link to="/privacy-policy" className="footer-bottom-link">Privacy</Link>
+              <Link to="/terms-of-service" className="footer-bottom-link">Terms</Link>
+              <Link to="/cookie-policy" className="footer-bottom-link">Cookies</Link>
             </div>
           </div>
         </div>
