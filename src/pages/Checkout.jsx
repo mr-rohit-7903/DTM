@@ -126,174 +126,33 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+  e.preventDefault()
 
-    console.log("Form submitted")
+  if (!validateForm()) return
 
-    if (!validateForm()) {
-      console.log("Form validation failed")
-      return
-    }
+  const customerName = `${formData.firstName} ${formData.lastName}`
+  const messageLines = [
+    `*New T-Shirt Order*`,
+    `Name: ${customerName}`,
+    `Email: ${formData.email}`,
+    `Phone: ${formData.phone}`,
+    `Address: ${formData.address}, ${formData.city}, ${formData.state} - ${formData.zipCode}, ${formData.country}`,
+    ``,
+    `*Items Ordered:*`,
+    ...cartItems.map(
+      (item, i) =>
+        `${i + 1}. ${item.name} | Size: ${item.size} | Color: ${item.color} | Qty: ${item.quantity} | ₹${(Number.parseInt(item.price.replace("₹", "").replace(",", "")) * item.quantity).toLocaleString()}`
+    ),
+    ``,
+    `*Total Amount:* ₹${getTotalPrice().toLocaleString()}`,
+  ]
 
-    setIsProcessing(true)
+  const message = encodeURIComponent(messageLines.join("\n"))
+  const phoneNumber = "+917903197215" // Replace with your WhatsApp number (no +)
 
-    try {
-      // Load Razorpay script
-      console.log("Loading Razorpay script...")
-      const scriptLoaded = await loadRazorpayScript()
-      if (!scriptLoaded) {
-        alert("Failed to load Razorpay SDK. Please check your internet connection.")
-        setIsProcessing(false)
-        return
-      }
+  window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank")
+}
 
-      console.log("Creating order...")
-
-      // Calculate total with tax
-      const subtotal = getTotalPrice()
-      const total = subtotal
-
-      // Create order on backend
-      const response = await fetch("http://localhost:5000/api/create-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: total, // Total amount including tax
-          currency: "INR",
-          customerInfo: {
-            name: `${formData.firstName} ${formData.lastName}`,
-            email: formData.email,
-            phone: formData.phone,
-          },
-          shippingAddress: {
-            address: formData.address,
-            city: formData.city,
-            state: formData.state,
-            zipCode: formData.zipCode,
-            country: formData.country,
-          },
-          cartItems: cartItems,
-        }),
-      })
-
-      console.log("Response status:", response.status)
-
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error("Server response error:", errorText)
-        throw new Error(`Server error: ${response.status}`)
-      }
-
-      const data = await response.json()
-      console.log("Order created:", data)
-
-      if (!data.success) {
-        throw new Error(data.error || "Failed to create order")
-      }
-
-      const { order } = data
-
-      // Configure Razorpay options
-      const options = {
-        key: "rzp_test_kKhkXD2e6LLagV", // Your Razorpay key ID
-        amount: order.amount,
-        currency: order.currency,
-        name: "Darkmode Threads",
-        description: "T-shirt Order Payment",
-        image: "/placeholder.svg?height=52&width=178",
-        order_id: order.id,
-        handler: async (response) => {
-          console.log("Payment successful:", response)
-          try {
-            // Verify payment on backend
-            const verifyResponse = await fetch("http://localhost:5000/api/verify-payment", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                customerInfo: {
-                  name: `${formData.firstName} ${formData.lastName}`,
-                  email: formData.email,
-                  phone: formData.phone,
-                },
-                shippingAddress: {
-                  address: formData.address,
-                  city: formData.city,
-                  state: formData.state,
-                  zipCode: formData.zipCode,
-                  country: formData.country,
-                },
-                cartItems: cartItems,
-                totalAmount: total,
-              }),
-            })
-
-            const verifyData = await verifyResponse.json()
-
-            if (verifyResponse.ok && verifyData.success) {
-              // Payment successful
-              console.log("Payment verified successfully")
-              navigate("/order-success", {
-                state: {
-                  orderId: verifyData.orderId,
-                  paymentId: response.razorpay_payment_id,
-                },
-              })
-            } else {
-              throw new Error(verifyData.error || "Payment verification failed")
-            }
-          } catch (error) {
-            console.error("Payment verification error:", error)
-            alert("Payment verification failed. Please contact support.")
-          } finally {
-            setIsProcessing(false)
-          }
-        },
-        prefill: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        notes: {
-          address: formData.address,
-          city: formData.city,
-          state: formData.state,
-        },
-        theme: {
-          color: "#ff6b6b",
-        },
-        modal: {
-          ondismiss: () => {
-            console.log("Payment modal dismissed")
-            setIsProcessing(false)
-          },
-        },
-      }
-
-      console.log("Opening Razorpay checkout with options:", options)
-
-      // Open Razorpay checkout
-      const rzp = new window.Razorpay(options)
-
-      rzp.on("payment.failed", (response) => {
-        console.error("Payment failed:", response.error)
-        alert(`Payment failed: ${response.error.description}`)
-        setIsProcessing(false)
-      })
-
-      rzp.open()
-    } catch (error) {
-      console.error("Payment initiation error:", error)
-      alert(`Failed to initiate payment: ${error.message}`)
-      setIsProcessing(false)
-    }
-  }
 
   if (cartItems.length === 0) {
     return (

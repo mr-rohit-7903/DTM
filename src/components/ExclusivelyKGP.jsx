@@ -10,21 +10,21 @@ const ExclusivelyKGP = ({ addToCart }) => {
   const kgpProducts = [
     {
       id: 20,
-      name: "KGP Legends Tee",
-      image: "/images/hero.png?height=300&width=250",
-      price: "₹699",
+      name: "Darkmode Threads - Classic",
+      image: "/kgp/classic.png?height=300&width=250",
+      price: "₹399",
       description: "Celebrate the legacy of IIT Kharagpur with this premium tee.",
       sizes: ["S", "M", "L", "XL", "XXL"],
-      colors: ["Black", "Navy", "Maroon"],
+      colors: ["Black", "White"],
     },
     {
       id: 21,
-      name: "Technology Hoodie",
-      image: "/images/hero.png?height=300&width=250",
-      price: "₹999",
+      name: "KGP Lingo",
+      image: "/kgp/lingo-mockup.png?height=300&width=250",
+      price: "₹499",
       description: "Premium hoodie celebrating the spirit of IIT KGP.",
       sizes: ["S", "M", "L", "XL", "XXL"],
-      colors: ["Black", "Grey", "Navy"],
+      colors: ["Black"],
     },
     {
       id: 22,
@@ -82,7 +82,7 @@ const ExclusivelyKGP = ({ addToCart }) => {
 
               <div className="kgp-product-info">
                 <h3 className="kgp-product-name">{product.name}</h3>
-                <p>{product.description}</p>
+                {/*<p>{product.description}</p>*/}
 
                 <div className="product-options">
                   <div className="size-options">
@@ -130,10 +130,10 @@ const ExclusivelyKGP = ({ addToCart }) => {
           ))}
         </div>
 
-        <div className="kgp-cta-section">
+        {/* <div className="kgp-cta-section">
           <button className="btn btn-primary kgp-cta">Explore KGP Collection</button>
           <p className="kgp-note">*Available only for verified IIT Kharagpur students and alumni</p>
-        </div>
+        </div> */}
       </div>
     </section>
   )

@@ -10,6 +10,24 @@ const Shop = ({ addToCart }) => {
 
   const products = [
     {
+      id: 20,
+      name: "Darkmode Threads - Classic",
+      image: "/kgp/classic.png?height=300&width=250",
+      price: "₹399",
+      description: "Celebrate the legacy of IIT Kharagpur with this premium tee.",
+      sizes: ["S", "M", "L", "XL", "XXL"],
+      colors: ["Black", "White"],
+    },
+    {
+      id: 21,
+      name: "KGP Lingo",
+      image: "/kgp/lingo-mockup.png?height=300&width=250",
+      price: "₹499",
+      description: "Premium hoodie celebrating the spirit of IIT KGP.",
+      sizes: ["S", "M", "L", "XL", "XXL"],
+      colors: ["Black"],
+    },
+    {
       id: 1,
       name: "Debugging Life Tee",
       price: "₹599",

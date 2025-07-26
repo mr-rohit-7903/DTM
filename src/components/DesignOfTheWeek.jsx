@@ -30,7 +30,7 @@ const DesignOfTheWeek = () => {
         <div className="featured-design">
           <div className="design-image-section">
             <div className="design-image-wrapper">
-              <img src="/images/hero.png?height=500&width=400" alt="Featured Design" className="featured-image" />
+              <img src="/kgp/lingo-mockup.png?height=500&width=400" alt="Featured Design" className="featured-image" />
               <div className="image-effects">
                 <div className="glow-ring"></div>
                 <div className="floating-particles">
@@ -48,21 +48,18 @@ const DesignOfTheWeek = () => {
               <span>Week #1</span>
             </div>
 
-            <h3 className="design-title">"Semicolon Survivor"</h3>
+            <h3 className="design-title">"KGP - Lingo"</h3>
 
             <div className="design-story">
               <p>
-                Born from the late-night coding sessions and the eternal struggle with missing semicolons. This design
-                speaks to every developer who's spent hours debugging only to find that one tiny punctuation mark was
-                the culprit.
+                IIT Kharagpur’s lingo is more than just words — it’s a culture. Terms like fundae, illu, nytout, and GC aren’t taught in class but picked up through everyday experiences, late-night bhaats, and hall events.
               </p>
 
               <p>
-                Featuring a minimalist aesthetic with a touch of humor, this tee represents the resilience of coders
-                everywhere. It's not just a t-shirt; it's a badge of honor for those who've survived the semicolon wars.
+                This unique language connects KGPians across batches, halls, and departments. It’s a shared code that turns the campus into a close-knit world — one you’ll speak fluently before you even realize it.
               </p>
             </div>
-
+{/* 
             <div className="design-stats">
               <div className="stat">
                 <span className="stat-number">2.4K</span>
@@ -76,10 +73,10 @@ const DesignOfTheWeek = () => {
                 <span className="stat-number">156</span>
                 <span className="stat-label">Comments</span>
               </div>
-            </div>
+            </div> */}
 
             <div className="design-actions">
-              <button className="btn btn-primary" >Get This Design - ₹649</button>
+              <a href="/shop" className="btn btn-primary" >Get This Design - ₹499</a>
               <a href="/shop" className="btn btn-secondary">View All Designs</a>
             </div>
           </div>
