@@ -7,42 +7,42 @@ const NewArrivals = ({ addToCart }) => {
   const newProducts = [
     {
       id: 16,
-      name: "Async/Await Tee",
-      price: "₹649",
-      image: "/images/hero.png",
+      name: "IDGAF",
+      price: "₹349",
+      image: "/kgp/idgaf.png",
       description: "Wait for it... Premium tee celebrating modern JavaScript. Soft and stylish.",
       sizes: ["S", "M", "L", "XL", "XXL"],
-      colors: ["Black", "Navy", "Purple"],
+      colors: ["Black"],
       badge: "New",
     },
     {
       id: 17,
-      name: "Git Commit Hoodie",
-      price: "₹899",
-      image: "/images/hero.png",
+      name: "Fet's Luck",
+      price: "₹349",
+      image: "/kgp/luck.png",
       description: "Commit to style with this Git-themed hoodie. Perfect for version control enthusiasts.",
       sizes: ["S", "M", "L", "XL", "XXL"],
-      colors: ["Black", "Grey", "Green"],
+      colors: ["Black"],
       badge: "New",
     },
     {
       id: 18,
-      name: "Stack Overflow Savior",
-      price: "₹599",
-      image: "/images/hero.png",
+      name: "Sombody Cares",
+      price: "₹349",
+      image: "/kgp/cares.png",
       description: "For those who live by Stack Overflow. Tribute tee to every developer's best friend.",
       sizes: ["S", "M", "L", "XL", "XXL"],
-      colors: ["Black", "Orange", "White"],
+      colors: ["Black"],
       badge: "New",
     },
     {
       id: 19,
-      name: "Merge Conflict Tee",
-      price: "₹549",
-      image: "/images/hero.png",
+      name: "Future-Past",
+      price: "₹349",
+      image: "/kgp/past.png",
       description: "When branches collide. Comfortable fit with developer humor that hits different.",
       sizes: ["S", "M", "L", "XL", "XXL"],
-      colors: ["Black", "Red", "Grey"],
+      colors: ["Black", "White"],
       badge: "New",
     },
   ]
@@ -93,7 +93,7 @@ const NewArrivals = ({ addToCart }) => {
 
               <div className="arrival-info">
                 <h3 className="arrival-name">{product.name}</h3>
-                <p className="arrival-description">{product.description}</p>
+                {/* <p className="arrival-description">{product.description}</p> */}
 
                 <div className="product-options">
                   <div className="size-options">

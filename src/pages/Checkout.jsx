@@ -132,7 +132,7 @@ const Checkout = ({ cartItems, getTotalPrice, getTotalItems }) => {
 
   const customerName = `${formData.firstName} ${formData.lastName}`
   const messageLines = [
-    `*New T-Shirt Order*`,
+    `*Hey I want to order this/these T-shirt(s)*`,
     `Name: ${customerName}`,
     `Email: ${formData.email}`,
     `Phone: ${formData.phone}`,
